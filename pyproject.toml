@@ -1,0 +1,142 @@
+# 算法式存储系统 - 项目配置
+# Author: 徐野
+# Date: 2025-11-23
+
+[project]
+name = "saf"
+version = "0.1.0"
+description = "算法式存储系统：基于 Kolmogorov 复杂度的科学计算数据超高压缩比存储方案"
+authors = [
+    {name = "徐野", email = ""}
+]
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+
+dependencies = [
+    "numpy>=1.24.0",
+    "scipy>=1.11.0",
+    "sympy>=1.12",
+    "gplearn>=0.4.2",
+    "scikit-learn>=1.3.0",
+    "Pillow>=10.0.0",
+    "opencv-python>=4.8.0",
+    "pydantic>=2.0.0",
+    "msgpack>=1.0.5",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0",
+    "black>=23.0.0",
+    "mypy>=1.5.0",
+    "ruff>=0.1.0",
+    "ipython>=8.12.0",
+    "jupyter>=1.0.0",
+]
+
+web = [
+    "fastapi>=0.104.0",
+    "uvicorn>=0.24.0",
+]
+
+parallel = [
+    "dask>=2023.10.0",
+]
+
+[project.scripts]
+saf = "src.cli.main:main"
+
+# ===== Black 配置 =====
+[tool.black]
+line-length = 100
+target-version = ['py310']
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.venv
+  | \.mypy_cache
+  | \.pytest_cache
+  | __pycache__
+  | build
+  | dist
+)/
+'''
+
+# ===== Mypy 配置 =====
+[tool.mypy]
+python_version = "3.10"
+warn_unused_configs = true
+disallow_untyped_defs = true
+check_untyped_defs = true
+no_implicit_optional = true
+ignore_missing_imports = true
+disable_error_code = ["override"]  # Allow子类修改方法签名（科学计算常见模式）
+
+# 放宽对科学计算库的类型检查
+[[tool.mypy.overrides]]
+module = ["numpy.*", "scipy.*", "sympy.*", "PIL.*", "noise.*"]
+ignore_missing_imports = true
+ignore_errors = false
+
+# ===== Ruff 配置 =====
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+exclude = [
+    ".git",
+    ".venv",
+    "__pycache__",
+    "build",
+    "dist",
+]
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "F",   # pyflakes
+    "I",   # isort
+    "N",   # pep8-naming
+    "W",   # pycodestyle warnings
+]
+ignore = [
+    "N806",  # Allow uppercase variable names in functions (for mathematical symbols like X, Y, Z, C)
+]
+
+# ===== Pytest 配置 =====
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_functions = ["test_*"]
+addopts = [
+    "--strict-markers",
+    "--cov=src",
+    "--cov-report=term-missing",
+    "--cov-report=html",
+]
+
+# ===== Coverage 配置 =====
+[tool.coverage.run]
+source = ["src"]
+omit = [
+    "*/tests/*",
+    "*/__init__.py",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+]
+
+# ===== Build system =====
+[build-system]
+requires = ["setuptools>=65.0", "wheel"]
+build-backend = "setuptools.build_meta"

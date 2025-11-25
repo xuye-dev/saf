@@ -1,0 +1,23 @@
+# 算法式存储系统 - 开发依赖
+# Author: 徐野
+# Date: 2025-11-23
+
+# 包含核心依赖
+-r requirements.txt
+
+# ===== 开发工具 =====
+pytest>=7.4.0              # 单元测试
+pytest-cov>=4.1.0          # 测试覆盖率
+black>=23.0.0              # 代码格式化
+mypy>=1.5.0                # 类型检查
+ruff>=0.1.0                # 代码检查
+ipython>=8.12.0            # 增强的 Python 交互式环境
+jupyter>=1.0.0             # Jupyter Notebook
+
+# ===== 可选依赖 =====
+# Web 界面（可选）
+fastapi>=0.104.0           # Web 框架
+uvicorn>=0.24.0            # ASGI 服务器
+
+# 并行计算（可选）
+dask>=2023.10.0            # 分布式计算
