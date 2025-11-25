@@ -1,0 +1,29 @@
+# 算法式存储系统 - 默认配置文件
+# Author: 徐野
+# Date: 2025-11-23
+
+# 日志配置
+logging:
+  level: INFO              # 日志级别：DEBUG/INFO/WARNING/ERROR/CRITICAL
+  file_path: logs/saf.log  # 日志文件路径
+  console: true            # 是否输出到控制台
+  max_file_size_mb: 10     # 单个日志文件最大大小（MB）
+  backup_count: 3          # 日志文件备份数量
+
+# 性能配置
+performance:
+  max_memory_mb: 4096      # 最大内存使用（MB）
+  enable_parallel: true    # 是否启用并行处理
+  worker_threads: 4        # 工作线程数
+
+# 压缩配置
+compression:
+  fallback_to_gzip: true           # 无法算法压缩时是否回退到 gzip
+  verification_required: true      # 是否强制验证无损性
+  min_compression_ratio: 2.0       # 最小压缩比阈值（低于此值回退到 gzip）
+
+# 模式检测配置
+detection:
+  max_iterations: 10000    # 符号回归最大迭代次数
+  confidence_threshold: 0.9 # 模式置信度阈值（0-1）
+  timeout_seconds: 300      # 单个检测任务超时时间（秒）
